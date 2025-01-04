@@ -21,6 +21,18 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
+
+add_executable(move_robot src/move_robot.cpp)
+
+
+ament_target_dependencies(move_robot rclcpp geometry_msgs)
+
+
+install(TARGETS
+  move_robot
+  DESTINATION lib/${PROJECT_NAME})
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
