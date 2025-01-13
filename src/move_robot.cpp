@@ -2,7 +2,7 @@
 #include "geometry_msgs/msg/twist.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 #include <cmath>
-#include "interfaces/srv/stop.hpp"
+#include "interfaces/srv/stop_go.hpp"
 #include "interfaces/msg/pos.hpp"
 
 rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub;
@@ -13,7 +13,7 @@ rclcpp::Logger logger = rclcpp::get_logger("robot_snake_movement");
 bool stop = false;
 
 // need a pub for the positions 
-rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr pos_pub;
+rclcpp::Publisher<interfaces::msg::Pos>::SharedPtr pos_pub;
 
 
 
@@ -34,11 +34,11 @@ void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
     geometry_msgs::msg::Twist cmd_vel_msg;
     
     // publishing the positions
-    std_msgs::msg::Pos position_msg;
+    interfaces::msg::Pos position_msg;
     position_msg.x = current_x*3.28;
     position_msg.y = current_y*3.28;
     
-    stop_pub->publish(position_msg);
+    pos_pub->publish(position_msg);
 
 
     if (current_y > 9 && !finished){
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         
         
     // publisher
-    pos_pub = node->create_publisher<std_msgs::msg::Pos>("/positions", 10);
+    pos_pub = node->create_publisher<interfaces::msg::Pos>("/pos", 10);
 
     RCLCPP_INFO(node->get_logger(), "Robot snake movement node started.");
 

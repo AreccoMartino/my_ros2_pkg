@@ -21,10 +21,12 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED) # Aggiunto
+find_package(interfaces REQUIRED)
+
 
 add_executable(move_robot src/move_robot.cpp)
 
-ament_target_dependencies(move_robot rclcpp geometry_msgs nav_msgs) # Aggiunto nav_msgs
+ament_target_dependencies(move_robot rclcpp geometry_msgs nav_msgs interfaces) # Aggiunto nav_msgs
 
 install(TARGETS
   move_robot
